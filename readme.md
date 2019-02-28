@@ -1,3 +1,5 @@
+This is a fork of https://github.com/padiazg/barcode-generator that fixes http port exposure from the docker container as well as adds optional environment variable support.
+
 Do you need to generate barcodes or qr codes? This function can generate a lot of them.
 
 >This project uses [bwip-js](https://github.com/metafloor/bwip-js).  
