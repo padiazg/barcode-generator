@@ -13,6 +13,6 @@ app.get("/", (req, res) => {
     }
 });
 
-const server = app.listen(3000, () => {
+const server = app.listen(process.env.EXPRESS_PORT || 3000, () => {
     console.log("barcode-generator is listening on port", server.address().port);
 });
