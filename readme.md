@@ -1,11 +1,8 @@
-This is a fork of https://github.com/padiazg/barcode-generator that fixes http port exposure from the docker container as well as adds optional environment variable support.
+# Barcode Generator
 
-Do you need to generate barcodes or qr codes? This function can generate a lot of them.
+Do you need to generate 1d or 2d codes? This function can generate a lot of them.
 
->This project uses [bwip-js](https://github.com/metafloor/bwip-js).  
-bwip-js is a translation to native JavaScript of the amazing code provided in [Barcode Writer in Pure PostScript](https://github.com/bwipp/postscriptbarcode). The translated code can run on any modern browser or JavaScript-based server framework.
-
-## Runnig it locally
+## Installation and run
 
 1. Clone this repository
 ```bash
@@ -21,29 +18,32 @@ $ npm install
 ```
 4. Run
 ```bash
-node express.js
+node index.js
 ```
 
-## Run from Docker Hub
-```
-# as a regular container
-$ docker run -d -p 3000:3000 --name barcode-generator padiazg/barcode-generator
-
-# as Docker service, can be scaled
-$ docker service create --name barcode-generator --publish 3000:3000 padiazg/barcode-generator
-```
-
-## Build the image locally
+# Running it on a container
+**Build the image**
 ```bash
 $ docker build -t your_dockerhub_id/barcode-generator .
 ```
+
+**Run it in a single container** 
+```bash
+$ docker run -d -p 3000:3000 --name barcode-generator padiazg/barcode-generator
+```
+**Run it as a Docker service, can be scaled** 
+You need Swarm enabled to run services
+```bash
+$ docker service create --name barcode-generator --publish 3000:3000 padiazg/barcode-generator
+```
+
 
 ## Examples:
 Parameters must be passed as query string:  
 Example:
 ```bash
 # ean13, white background, 2px of padding, show text
-$ curl "http://localhost:3000?bcid=ean13&text=123456789012&backgroundcolor=FFFFFF&paddingwidth=2&paddingheight=2&includetext" --output ean13.png
+$ curl "http://localhost:3000?bcid=ean13&text=123456789012&backgroundcolor=FFFFFF&paddingwidth=2&paddingheight=2&includetext=true" --output ean13.png
 
 # QR code, white background, 2px of padding
 $ curl "http://localhost:3000?bcid=qrcode&text=Hello+world!&backgroundcolor=FFFFFF&paddingwidth=2&paddingheight=2" --output qrcode.png
@@ -51,7 +51,8 @@ $ curl "http://localhost:3000?bcid=qrcode&text=Hello+world!&backgroundcolor=FFFF
 
 ## Parameters
 Specific from this project:
-* **base64**: Optional, not part of the modules parameters. Tells the function that we want the ouput encoded in base64. Defaults tu ```false```.
+* **base64**: Optional, not part of the modules parameters. Tells the function that we want the ouput encoded in base64. Defaults tu `false`.
+* **format**: Optional, not part of the modules parameters. By default a PNG image is generated. If you need a JPG image set this parameter to `jpg`. Defaults to `png`.
 
 Specific from bwip-js
 * **bcid**: The requested code. *required*  
@@ -184,3 +185,15 @@ There are more options specific from BWIPP, and they are documented in the  [BWI
 *  upcacomposite : UPC-A Composite    
 *  upce : UPC-E    
 *  upcecomposite : UPC-E Composite
+
+# Acknowledgment
+This project uses [bwip-js](https://github.com/metafloor/bwip-js), which is a translation to native JavaScript of the amazing code provided in [Barcode Writer in Pure PostScript](https://github.com/bwipp/postscriptbarcode). The translated code can run on any modern browser or JavaScript-based server framework.
+
+Helper functions inspired on this [article](https://www.derpturkey.com/buffer-to-stream-in-node/)
+
+# Contact
+Please use [Github issue tracker](https://github.com/padiazg/go-zh07/issues) for filing bugs or feature requests.
+For direct contact drop me a message to padiazg@gmail.com
+
+# License
+Barcode Generator is licensed under MIT License.
