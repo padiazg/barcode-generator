@@ -3,40 +3,23 @@ Barcode Generator
 (c) 2021 Patricio Díaz 
 Adapted from  https://github.com/metafloor/bwip-js to use Express.js
 */
+
 const express = require("express");
 const bwipjs = require('bwip-js');
+const fs = require("fs");
 const { Duplex } = require("stream");
 const PNGDecoder = require("png-stream/decoder");
 const JPEGEncoder = require("jpg-stream/encoder");
 const ColorTransform = require("color-transform");
 
-// const { buffer } = require("jpg-stream/build/jpeg");
-const fs = require("fs");
+const { toBuffer, toStream } = require("./utils");
 
 const app = express();
+app.use(express.static('public'));
 
-// converts a Buffer to a Stream
-const toStream = buffer => {
-    const stream = new Duplex()
-    stream.push(buffer);
-    stream.push(null);
-    return stream
-} // toStream ...
-
-// converts a Stream to a Buffer
-const toBuffer = stream => new Promise((resolve, reject) => {
-    let b0 = [];
-    stream.on('error', reject);
-    stream.on('data', data => b0.push(data));
-    stream.on('end', () => resolve(Buffer.concat(b0)));
-}); // toBuffer ...
-
-// Converts a PNG stream into a JPG
-const toJPG = stream => stream
-    .pipe(new PNGDecoder)
-    .pipe(new ColorTransform('gray'))
-    .pipe(new JPEGEncoder)
-    ;
+// app.get('/live', (req, res) => {
+//     res.sendFile(path.join(__dirname + '/example/live.html'));
+// });
 
 app.get("/", (req, res) => {
     let parameters = req.query;
@@ -45,8 +28,7 @@ app.get("/", (req, res) => {
         return res
             .status(404)
             .contentType('text/plain')
-            .end('BarcodeGenerator: Missing bcid or text parameter', 'utf8')
-            ;
+            .end('BarcodeGenerator: Missing bcid or text parameter', 'utf8');
     }
 
     // parameters from this project
@@ -65,13 +47,12 @@ app.get("/", (req, res) => {
     parameters.paddingwidth = parameters.paddingwidth != undefined ? parameters.paddingwidth : 1;
     parameters.paddingheight = parameters.paddingheight != undefined ? parameters.paddingheight : 1;
 
-    bwipjs.toBuffer(parameters, async (error, img) => {
+    bwipjs.toBuffer(parameters, async(error, img) => {
         if (error) {
             return res
                 .status(500)
                 .contentType('text/plain')
-                .send(`BarcodeGenerator: ${error.message}`)
-                ;
+                .send(`BarcodeGenerator: ${error.message}`);
         } // if (error) ... 
 
         let r0;
@@ -94,7 +75,7 @@ app.get("/", (req, res) => {
             contentType = "text/plain"
         }
 
-        res.status(200).contentType(contentType).send(base64 ? r0.toString("base64") : r0 );
+        res.status(200).contentType(contentType).send(base64 ? r0.toString("base64") : r0);
     }); // bwipjs.toBuffer ...
 }); // app.get("/", ...
 
