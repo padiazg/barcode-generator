@@ -176,6 +176,7 @@ button {
 
 a.saveas {
     color: blue;
+    margin-right: 1rem;
 }
 
 a.saveas:visited {
