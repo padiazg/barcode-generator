@@ -1,9 +1,8 @@
-Do you need to generate barcodes or qr codes? This function can generate a lot of them.
+# Barcode Generator
 
->This project uses [bwip-js](https://github.com/metafloor/bwip-js).  
-bwip-js is a translation to native JavaScript of the amazing code provided in [Barcode Writer in Pure PostScript](https://github.com/bwipp/postscriptbarcode). The translated code can run on any modern browser or JavaScript-based server framework.
+Do you need to generate 1d or 2d codes? This function can generate a lot of them.
 
-## Runnig it locally
+## Installation and run
 
 1. Clone this repository
 ```bash
@@ -22,16 +21,18 @@ $ npm install
 node index.js
 ```
 
-# Build the image locally
+# Running it on a container
+**Build the image**
 ```bash
 $ docker build -t your_dockerhub_id/barcode-generator .
 ```
 
-### Run as a single container
+**Run it in a single container** 
 ```bash
 $ docker run -d -p 3000:3000 --name barcode-generator padiazg/barcode-generator
 ```
-### Run as Docker service, can be scaled
+**Run it as a Docker service, can be scaled** 
+You need Swarm enabled to run services
 ```bash
 $ docker service create --name barcode-generator --publish 3000:3000 padiazg/barcode-generator
 ```
@@ -51,7 +52,7 @@ $ curl "http://localhost:3000?bcid=qrcode&text=Hello+world!&backgroundcolor=FFFF
 ## Parameters
 Specific from this project:
 * **base64**: Optional, not part of the modules parameters. Tells the function that we want the ouput encoded in base64. Defaults tu `false`.
-* **format**: Optional, not part of the modules parameters. By default a PNG image is generated. If you need a JPG image set this parameter to `jpg`. Defaults tu `png`.
+* **format**: Optional, not part of the modules parameters. By default a PNG image is generated. If you need a JPG image set this parameter to `jpg`. Defaults to `png`.
 
 Specific from bwip-js
 * **bcid**: The requested code. *required*  
@@ -186,4 +187,13 @@ There are more options specific from BWIPP, and they are documented in the  [BWI
 *  upcecomposite : UPC-E Composite
 
 # Acknowledgment
+This project uses [bwip-js](https://github.com/metafloor/bwip-js), which is a translation to native JavaScript of the amazing code provided in [Barcode Writer in Pure PostScript](https://github.com/bwipp/postscriptbarcode). The translated code can run on any modern browser or JavaScript-based server framework.
+
 Helper functions inspired on this [article](https://www.derpturkey.com/buffer-to-stream-in-node/)
+
+# Contact
+Please use [Github issue tracker](https://github.com/padiazg/go-zh07/issues) for filing bugs or feature requests.
+For direct contact drop me a message to padiazg@gmail.com
+
+# License
+Barcode Generator is licensed under MIT License.

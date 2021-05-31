@@ -1,10 +1,11 @@
 /*
+Barcode Generator
+(c) 2021 Patricio Díaz 
 Adapted from  https://github.com/metafloor/bwip-js to use Express.js
 */
 const express = require("express");
 const bwipjs = require('bwip-js');
-// const gm = require('gm');
-const { Readable, Duplex } = require("stream");
+const { Duplex } = require("stream");
 const PNGDecoder = require("png-stream/decoder");
 const JPEGEncoder = require("jpg-stream/encoder");
 const ColorTransform = require("color-transform");
