@@ -1,6 +1,6 @@
 # Barcode Generator
 
-Do you need to generate 1d or 2d codes? This function can generate a lot of them.
+Do you need to generate 1d or 2d codes? This project can generate a lot of them.
 
 ## Installation and run
 

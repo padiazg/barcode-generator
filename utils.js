@@ -1,3 +1,5 @@
+const { Duplex } = require("stream");
+
 // converts a Buffer to a Stream
 const toStream = buffer => {
         const stream = new Duplex()
@@ -14,7 +16,7 @@ const toBuffer = stream => new Promise((resolve, reject) => {
     stream.on('end', () => resolve(Buffer.concat(b0)));
 }); // toBuffer ...
 
-module.export = {
+module.exports = {
     toStream,
     toBuffer,
 }

@@ -187,3 +187,22 @@ button {
     padding: .5ex 1ex;
     min-width: 18ex;
 }
+
+#base64output {
+    margin-top: 10px;
+}
+
+#base64output span {
+    font-weight: bold;
+}
+
+#base64img {
+    padding: 5px;
+    border: 1px solid dimgray;
+    word-wrap: break-word;
+    max-width: 60rem;
+    max-height: 25rem;
+    overflow: scroll;
+    font-family: 'Courier New', Courier, monospace;
+    font-size: 12px;
+}
