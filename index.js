@@ -3,11 +3,8 @@ Barcode Generator
 (c) 2021 Patricio Díaz 
 Adapted from  https://github.com/metafloor/bwip-js to use Express.js
 */
-
 const express = require("express");
 const bwipjs = require('bwip-js');
-const fs = require("fs");
-const { Duplex } = require("stream");
 const PNGDecoder = require("png-stream/decoder");
 const JPEGEncoder = require("jpg-stream/encoder");
 const ColorTransform = require("color-transform");
@@ -32,7 +29,7 @@ app.get("/", (req, res) => {
     }
 
     // parameters from this project
-    const base64 = parameters.base64 ? parameters.base64 : false;
+    const base64 = parameters.base64 ? parameters.base64.trim().toLowerCase() == 'true' : false;
     delete parameters.base64;
 
     const format = parameters.format ? parameters.format.toLowerCase() : 'png';
