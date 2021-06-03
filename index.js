@@ -54,26 +54,34 @@ app.get("/", (req, res) => {
 
         let r0;
         let contentType;
+        try {
+            // convert to desired image format if needed
+            switch (format) {
+                case "jpg":
+                    r0 = await toBuffer(toStream(img));
+                    contentType = "image/jpg";
+                    break;
+                case "png":
+                default:
+                    r0 = img;
+                    contentType = "image/png";
+            } // switch ...
 
-        // convert to desired image format if needed
-        switch (format) {
-            case "jpg":
-                r0 = await toBuffer(toStream(img));
-                contentType = "image/jpg";
-                break;
-            case "png":
-            default:
-                r0 = img;
-                contentType = "image/png";
-        } // switch ...
+            // return base64 encoded if requested
+            if (base64) {
+                contentType = "text/plain"
+            }
 
-        // return base64 encoded if requested
-        if (base64) {
-            contentType = "text/plain"
+            res.status(200).contentType(contentType).send(base64 ? r0.toString("base64") : r0);
+
+        } catch (error) {
+            console.log("When rendering code: ", error);
+            res.status(500)
+                .contentType('text/plain')
+                .send(`BarcodeGenerator: ${error.message}`);
         }
-
-        res.status(200).contentType(contentType).send(base64 ? r0.toString("base64") : r0);
     }); // bwipjs.toBuffer ...
+
 }); // app.get("/", ...
 
 const server = app.listen(process.env.EXPRESS_PORT || 3000, () => {
