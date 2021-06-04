@@ -5,11 +5,8 @@ Adapted from  https://github.com/metafloor/bwip-js to use Express.js
 */
 const express = require("express");
 const bwipjs = require('bwip-js');
-const PNGDecoder = require("png-stream/decoder");
-const JPEGEncoder = require("jpg-stream/encoder");
-const ColorTransform = require("color-transform");
 
-const { toBuffer, toStream } = require("./utils");
+const { PNG2JPG } = require("./utils");
 
 const app = express();
 app.use(express.static('public'));
@@ -58,7 +55,7 @@ app.get("/", (req, res) => {
             // convert to desired image format if needed
             switch (format) {
                 case "jpg":
-                    r0 = await toBuffer(toStream(img));
+                    r0 = await PNG2JPG(img);
                     contentType = "image/jpg";
                     break;
                 case "png":

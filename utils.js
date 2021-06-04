@@ -1,4 +1,7 @@
 const { Duplex } = require("stream");
+const PNGDecoder = require("png-stream/decoder");
+const JPEGEncoder = require("jpg-stream/encoder");
+const ColorTransform = require("color-transform");
 
 // converts a Buffer to a Stream
 const toStream = buffer => {
@@ -16,7 +19,15 @@ const toBuffer = stream => new Promise((resolve, reject) => {
     stream.on('end', () => resolve(Buffer.concat(b0)));
 }); // toBuffer ...
 
+// returns a Promise
+const PNG2JPG = buffer => toBuffer(toStream(buffer)
+    .pipe(new PNGDecoder)
+    .pipe(new ColorTransform('gray'))
+    .pipe(new JPEGEncoder({ quality: 80 }))
+)
+
 module.exports = {
     toStream,
     toBuffer,
+    PNG2JPG,
 }
